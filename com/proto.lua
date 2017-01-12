@@ -32,13 +32,43 @@ set 3 {
 
 quit 4 {}
 
-login 5 {
+login 101 {
 	request {
-		user 0 : string
+		username 0 : string
 		pass 1 : string
 	}
 	response {
 		result 0 : integer
+	}
+}
+
+userinfo 110 {
+	response {
+		result 0 : integer
+	}
+}
+
+playerinfo 120 {
+	response {
+		result 0 : integer
+	}
+}
+
+heroinfo 130 {
+	request {
+		heroid 0 : integer
+	}
+	response {
+		hero : hero_info
+	}
+}
+
+equip 140 {
+	request {
+		heroid 0 : integer
+	}
+	response {
+		equip : equip
 	}
 }
 

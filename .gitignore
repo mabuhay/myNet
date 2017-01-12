@@ -1,0 +1,7 @@
+*.dSYM
+*.so
+.DS_Store
+.svn
+*.xcworkspace
+*.xcuserdatad
+skynet-master

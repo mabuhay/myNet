@@ -1,0 +1,11 @@
+root = "./"
+thread = 8
+logger = nil
+logpath = "."
+harbor = 0
+start = "main"
+bootstrap = "snlua bootstrap"
+luaservice = root.."service/?.lua;"..root.."mygame/?.lua"
+lualoader = "lualib/loader.lua"
+snax = root.."game_mod/?.lua;"
+cpath = root.."cservice/?.so"

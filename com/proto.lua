@@ -32,7 +32,7 @@ set 3 {
 
 quit 4 {}
 
-login 101 {
+login 5 {
 	request {
 		username 0 : string
 		pass 1 : string
@@ -42,37 +42,45 @@ login 101 {
 	}
 }
 
-userinfo 110 {
+get_userinfo 6 {
 	response {
-		result 0 : integer
+		lastsvr 0 : integer
+		historysvr 1 : *integer
 	}
 }
 
-playerinfo 120 {
+get_playrinfo 7 {
 	response {
-		result 0 : integer
+		lev 0 : integer
+		exp 1 : integer
+		gold 2 : integer
+		herolist 3 : *integer
 	}
 }
 
-heroinfo 130 {
+get_heroinfo 8 {
 	request {
 		heroid 0 : integer
-	}
+	}	
 	response {
-		hero : hero_info
-	}
-}
+		tpltid 0 : integer
 
-equip 140 {
-	request {
-		heroid 0 : integer
-	}
-	response {
-		equip : equip
 	}
 }
 
 ]]
+
+
+
+
+
+
+
+
+
+
+
+
 
 proto.s2c = sprotoparser.parse [[
 .package {

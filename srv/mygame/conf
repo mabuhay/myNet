@@ -7,7 +7,7 @@ start = "main"
 bootstrap = "snlua bootstrap"
 
 myservice = "myservice/?.lua;"
-mygame = "mygame/?.lua;"..root.."../com/?.lua;"
+mygame = "mygame/?.lua;"..root.."../com/?.lua;"..root.."../conf/?.lua"
 
 luaservice = root.."service/?.lua;"..root..myservice..root..mygame
 lualoader = "lualib/loader.lua"

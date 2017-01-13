@@ -4,6 +4,7 @@ local socket = require "socket"
 local sproto = require "sproto"
 local sprotoloader = require "sprotoloader"
 
+local WATCHDOG
 local host
 local send_request
 
@@ -11,15 +12,39 @@ local CMD = {}
 local REQUEST = {}
 local client_fd
 
+local userid
+
+function gen_newuserid()
+	
+end
+
 function REQUEST:login()
-	print("login", self.what)
-	local r=skynet.call("SIMPLEDB","lua","get",self.what)
+	print("login", self.username)
+	local r=skynet.call("REDIS","lua","get",self.username)
 	if r == nil then
+		userid = gen_newuserid()
 		skynet.call("SIMPLEDB","lua","set",self.what,self.value)
 		return { result = 0}
 	else
 		return { result = 1}
 	end
+end
+
+--区服-角色等级
+function REQUEST:get_userinfo()
+	local hist = {101,102}
+	return { 
+		lastsvr = 101,
+		historysvr = hist
+	}
+end
+
+function REQUEST:playerinfo()
+	-- body
+end
+
+function REQUEST:quit()
+	skynet.call(WATCHDOG, "lua", "close", client_fd)
 end
 
 function REQUEST:get()
@@ -73,7 +98,10 @@ skynet.register_protocol {
 	end
 }
 
-function CMD.start(gate, fd)
+function CMD.start(conf)	
+	local fd = conf.client
+	local gate = conf.gate
+	WATCHDOG = conf.watchdog
 	-- slot 1,2 set at main.lua
 	host = sprotoloader.load(1):host "package"
 	send_request = host:attach(sprotoloader.load(2))
@@ -86,6 +114,11 @@ function CMD.start(gate, fd)
 
 	client_fd = fd
 	skynet.call(gate, "lua", "forward", fd)
+end
+
+function CMD.disconnect()
+	-- todo: do something before exit
+	skynet.exit()
 end
 
 skynet.start(function()

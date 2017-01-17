@@ -186,7 +186,7 @@ def main():
     infiles = []
     paths = os.listdir(EXCEL_PATH)
     for p in paths:
-        if os.path.isfile(os.path.join(EXCEL_PATH, p)) and (p.endswith('.xls') or p.endswith('.xlsx')) and p.startswith('TB_'):
+        if os.path.isfile(os.path.join(EXCEL_PATH, p)) and (p.endswith('.xls') or p.endswith('.xlsx')) and p.startswith('conf_'):
             infiles.append(p)
             print p
 

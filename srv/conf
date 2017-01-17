@@ -12,5 +12,5 @@ mygame = "mygame/?.lua;"..root.."../com/?.lua;"..root.."../conf/?.lua"
 luaservice = root.."service/?.lua;"..root..myservice..root..mygame
 lualoader = "lualib/loader.lua"
 lua_path = root.."lualib/?.lua;"..root.."lualib/?/init.lua;"..root..mygame
-snax = root.."game_mod/?.lua;"
+snax = root.."mygame/?.lua;"
 cpath = root.."cservice/?.so"

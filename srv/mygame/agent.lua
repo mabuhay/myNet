@@ -49,13 +49,24 @@ end
 
 function REQUEST:get()
 	print("get", self.what)
-	local r = skynet.call("SIMPLEDB", "lua", "get", self.what)
+	local r = skynet.call("mydb", "lua", "get", 1, self.what)
 	return { result = r }
 end
 
 function REQUEST:set()
 	print("set", self.what, self.value)
-	local r = skynet.call("SIMPLEDB", "lua", "set", self.what, self.value)
+	local r = skynet.call("mydb", "lua", "set", 1, self.what, self.value)
+end
+
+function REQUEST:hget()
+	print("get", self.what)
+	local r = skynet.call("mydb", "lua", "hget", 1, self.what)
+	return { result = r }
+end
+
+function REQUEST:hset()
+	print("set", self.what, self.value)
+	local r = skynet.call("mydb", "lua", "hset", 1, self.what, self.value)
 end
 
 function REQUEST:handshake()

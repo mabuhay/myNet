@@ -4,6 +4,8 @@ local socket = require "socket"
 local sproto = require "sproto"
 local sprotoloader = require "sprotoloader"
 
+require 'save_hero'
+
 local WATCHDOG
 local host
 local send_request
@@ -42,6 +44,26 @@ end
 function REQUEST:playerinfo()
 	-- body
 end
+require "utils"
+
+function gethero( ... )
+	do_redis( {'set','youname','bullshit'})
+	local instid = 123129
+	local tb = {confid=1001,lv=5}	
+	do_redis( {'hmset','tb_user'..instid,tb} )
+	local ret = do_redis( {'hgetall','tb_user'..instid} )
+	print("gethero: ")
+	for k, v in pairs(ret) do
+		print("k: "..k)
+		print("v: "..v)
+	end
+	ret = make_pairs_table(ret)
+end
+
+function REQUEST:get_heroinfo()
+	local  ret = gethero()
+	return { hi = ret }
+end
 
 function REQUEST:quit()
 	skynet.call(WATCHDOG, "lua", "close", client_fd)
@@ -54,8 +76,11 @@ function REQUEST:get()
 end
 
 function REQUEST:set()
-	print("set", self.what, self.value)
-	local r = skynet.call("mydb", "lua", "set", 1, self.what, self.value)
+	-- print("set", self.what, self.value)
+	-- -- local r = skynet.call("mydb", "lua", "set", 1, self.what, self.value)
+	-- local hero = Save_hero.new()
+	-- hero:save()
+	-- local r = skynet.call("mydb", "lua", "set", 1, 22222222, 999)
 end
 
 function REQUEST:hget()
@@ -70,7 +95,8 @@ function REQUEST:hset()
 end
 
 function REQUEST:handshake()
-	return { msg = "Welcome to skynet." }
+	local hi = gethero()
+	return { msg = "Welcome to skynet.", hi = {confid=23239,lv=33} }
 end
 
 local function request(name, args, response)

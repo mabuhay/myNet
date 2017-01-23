@@ -1,3 +1,24 @@
+local setmetatableindex_
+setmetatableindex_ = function(t, index)
+    if type(t) == "userdata" then
+        local peer = tolua.getpeer(t)
+        if not peer then
+            peer = {}
+            tolua.setpeer(t, peer)
+        end
+        setmetatableindex_(peer, index)
+    else
+        local mt = getmetatable(t)
+        if not mt then mt = {} end
+        if not mt.__index then
+            mt.__index = index
+            setmetatable(t, mt)
+        elseif mt.__index ~= index then
+            setmetatableindex_(mt, index)
+        end
+    end
+end
+setmetatableindex = setmetatableindex_
 
 function class(classname, ...)
     local cls = {__cname = classname}
@@ -72,3 +93,4 @@ function class(classname, ...)
 
     return cls
 end
+

@@ -60,7 +60,10 @@ end
 
 function CMD.hmset(uid, key, t)
 	local data = {}
+	print('key: '..key)
 	for k, v in pairs(t) do
+		print("k: "..k)
+		print("v: "..v)
 		table.insert(data, k)
 		table.insert(data, v)
 	end
